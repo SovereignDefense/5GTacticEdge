@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5G-TacticEdge: Rede Tática de Borda (PQC-Ready)</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    
+    <style>
+        /* =========================================
+        1. RESET E TIPOGRAFIA
+        ========================================= */
+        :root {
+            /* Cores Militares e de Alta Tecnologia */
+            --cor-primaria: #0A192F; /* Azul Marinho Escuro - Fundo */
+            --cor-secundaria: #172A46; /* Azul Escuro - Seções */
+            --cor-destaque: #64FFDA; /* Ciano/Verde Tático - Acentuação */
+            --cor-texto-claro: #CCD6F6; /* Branco Suave */
+            --cor-texto-medio: #8892B0; /* Cinza Chumbo */
+            --borda-fina: 1px solid var(--cor-destaque);
+            
+            /* Cores do Destaque de Sintaxe (Monaco/VS Code Dark) */
+            --code-background: #1E1E1E;
+            --code-text: #D4D4D4; /* Branco/Cinza Claro */
+            --code-keyword: #569CD6; /* Azul para Palavras-Chave */
+            --code-string: #CE9178; /* Laranja para Strings */
+            --code-variable: #9CDCFE; /* Azul Claro para Variáveis/Chaves */
+            --code-comment: #6A9955; /* Verde para Comentários */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif; /* Fonte legível e profissional */
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            color: var(--cor-texto-claro);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--cor-destaque);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4dc2a8; /* Um tom mais escuro ao passar o mouse */
+        }
+
+        /* =========================================
+        2. ESTRUTURA E LAYOUT
+        ========================================= */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: var(--cor-secundaria);
+            border-bottom: var(--borda-fina);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: var(--cor-destaque);
+        }
+
+        nav a {
+            margin-left: 25px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            color: var(--cor-texto-medio);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* =========================================
+        3. HERO SECTION (DESTAQUE)
+        ========================================= */
+        #hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.9)), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj4KICA8bGluZSB4MT0iMCIgeTE9IjUwIiB4Mj0iMTAwIiB5Mj0iNTAiIHN0cm9rZT0iIzE3MmE0NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPGxpbmUgeDE9IjUwIiB5MT0iMCIgeDI9IjUwIiB5Mj0iMTAwIiBzdHJva2U9IiMxNzJhNDYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjIiIGZpbGw9IiM2NEZGREEiLz4KPC9zdmc+') repeat;
+            background-size: 100px 100px;
+            border-bottom: 3px solid var(--cor-destaque);
+        }
+
+        #hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        #hero p {
+            font-size: 1.2em;
+            color: var(--cor-texto-medio);
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: var(--cor-destaque);
+            border: var(--borda-fina);
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--cor-destaque);
+        }
+
+        /* =========================================
+        4. SEÇÕES DE CONTEÚDO
+        ========================================= */
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            text-align: left;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 2px;
+            background-color: var(--cor-destaque);
+            margin-top: 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--cor-secundaria);
+            padding: 30px;
+            border-radius: 4px;
+            border-top: 3px solid var(--cor-destaque);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--cor-destaque);
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        /* Tabela de KRI (Key Result Indicators) */
+        #kri table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--cor-texto-claro);
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        #kri th, #kri td {
+            border: var(--borda-fina);
+            padding: 15px;
+            text-align: left;
+        }
+
+        #kri th {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-destaque);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        #kri td:nth-child(2) {
+            font-weight: bold;
+            color: var(--cor-destaque);
+        }
+
+        /* =========================================
+        5. ESTILIZAÇÃO DO BLOCO DE CÓDIGO (Monaco/VS Code)
+        ========================================= */
+        .code-block {
+            background-color: var(--code-background);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            border-left: 5px solid var(--cor-destaque);
+            white-space: pre; /* Preserva os espaços e quebras de linha */
+        }
+        
+        /* Classes para simular o Syntax Highlight */
+        .code-key { color: var(--code-keyword); }     /* ex: version, services, image */
+        .code-var { color: var(--code-variable); }    /* ex: open5gs-core, network_mode */
+        .code-str { color: var(--code-string); }      /* ex: "3.7", "host" */
+        .code-com { color: var(--code-comment); }     /* ex: Comentários */
+        .code-bool { color: #C586C0; }                /* ex: true */
+        .code-num { color: #B5CEA8; }                 /* ex: 3.7 */
+
+        /* =========================================
+        6. FOOTER
+        ========================================= */
+        footer {
+            background-color: var(--cor-secundaria);
+            text-align: center;
+            padding: 30px 0;
+            border-top: var(--borda-fina);
+            color: var(--cor-texto-medio);
+            font-size: 0.9em;
+        }
+        
+        /* =========================================
+        7. UTILITÁRIOS E ÍCONES
+        ========================================= */
+        .icon {
+            color: var(--cor-destaque);
+            font-size: 2em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">5G-TacticEdge</div>
+            <nav>
+                <a href="#projeto">Projeto</a>
+                <a href="#arquitetura">Arquitetura</a>
+                <a href="#kri">Desempenho</a>
+                <a href="#seguranca">Segurança PQC</a>
+                <a href="#contato" class="cta-button">Contato Tático</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h1>Rede 5G Privativa Tática de Borda. <span style="color: var(--cor-destaque);">Soberania.</span> <span style="color: var(--cor-destaque);">Latência Zero.</span></h1>
+            <p>O 5G-TacticEdge é a solução definitiva para comunicações ultrasseguras e de baixíssima latência (Ultra-Low Latency) entre Postos de Comando e Unidades de Campo. Arquitetura 5G Standalone (SA) Edge Core com proteção Pós-Quântica (PQC) embarcada.</p>
+            <a href="#projeto" class="cta-button">Explorar o Projeto</a>
+        </div>
+    </section>
+
+    <section id="projeto">
+        <div class="container">
+            <h2 class="section-title">O Projeto: Inovação Tática</h2>
+            <p style="color: var(--cor-texto-medio); margin-bottom: 40px;">Construído sobre software Open Source e hardware robustecido (COTS), este sistema garante total independência operacional e velocidade de reação inigualável.</p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3><span class="icon">⚡</span> Core de Borda (Edge Core)</h3>
+                    <p>O cérebro da rede é movido para o campo de batalha. Utilizamos um Mini-PC Rugged com funções 5G Core virtualizadas (Open5GS/srsRAN), garantindo latência ultrabaixa no ponto de uso.</p>
+                </div>
+                <div class="card">
+                    <h3><span class="icon">🛡️</span> Criptografia Pós-Quântica (PQC)</h3>
+                    <p>Nossa comunicação é Quantum-Safe Ready. Implementação de chaves híbridas (Kyber + AES) para proteger dados críticos contra futuros ataques de computação quântica.</p>
+                </div>
+                <div class="card">
+                    <h3><span class="icon">🚀</span> Network Slicing Tático</h3>
+                    <p>Fatiamento virtual da rede para garantir prioridade. O tráfego de Comando e Controle (C2) recebe latência zero, enquanto o tráfego de Vídeo/Dados Massivos usa banda larga dedicada (eMBB).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="arquitetura" style="background-color: var(--cor-secundaria);">
+        <div class="container">
+            <h2 class="section-title">Arquitetura Leve e Modular</h2>
+            <p style="color: var(--cor-texto-medio); margin-bottom: 40px;">O sistema é modular, permitindo rápido deploy (menos de 15 minutos) em qualquer teatro de operações, com total flexibilidade de *backhaul* (Satélite ou Rádio).</p>
+
+            <div class="grid-3">
+                <div class="card" style="border-top-color: #8892B0;">
+                    <h3><span class="icon" style="color: #8892B0;">⚙️</span> Edge Core (Unidade PC)</h3>
+                    <p>Componentes: AMF, SMF, UPF (Open5GS).<br>Plataforma: Linux OS + Docker K3s.<br>Objetivo: Processamento de dados de usuário (UPF) na borda, minimizando a distância até o gNB.</p>
+                </div>
+                <div class="card" style="border-top-color: #8892B0;">
+                    <h3><span class="icon" style="color: #8892B0;">📡</span> gNB (Rádio Tático)</h3>
+                    <p>Componentes: Small Cell Tática ou SDR (Software-Defined Radio).<br>Banda: CBRS ou Faixa licenciada dedicada.<br>Objetivo: Acesso sem fio 5G Standalone (SA) com cobertura localizada e robusta.</p>
+                </div>
+                <div class="card" style="border-top-color: #8892B0;">
+                    <h3><span class="icon" style="color: #8892B0;">🔑</span> Segurança PQC</h3>
+                    <p>Implementação: VPN IPsec PQC-Híbrida rodando em contêiner dedicado.<br>Algoritmos: Kyber (Troca) e Dilithium (Assinatura).<br>Objetivo: Camada de segurança inexpugnável.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kri">
+        <div class="container">
+            <h2 class="section-title">Indicadores de Desempenho (KRIs)</h2>
+            <p style="color: var(--cor-texto-medio);">O 5G-TacticEdge excede os requisitos de comunicação crítica para operações táticas.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requisito Operacional</th>
+                        <th>Valor Alvo</th>
+                        <th>Justificativa Tática</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Latência Ponto-a-Ponto (RTT)</td>
+                        <td>$\le 5\text{ ms}$</td>
+                        <td>Controle de Veículos Não Tripulados (UAV/UGV) em tempo real e Telecirurgia remota.</td>
+                    </tr>
+                    <tr>
+                        <td>Taxa de Pico de Dados (Downlink)</td>
+                        <td>$\ge 500 \text{ Mbps}$</td>
+                        <td>Streaming de Vídeo 4K/8K de múltiplos sensores simultaneamente.</td>
+                    </tr>
+                    <tr>
+                        <td>Tempo de Deploy (Cold Start)</td>
+                        <td>$\le 15$ minutos</td>
+                        <td>Mobilidade e agilidade em missões de alto risco.</td>
+                    </tr>
+                    <tr>
+                        <td>Integridade da Criptografia</td>
+                        <td>Pós-Quântica Híbrida</td>
+                        <td>Defesa contra Store-Now-Decrypt-Later (SNDL) e ataques quânticos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="seguranca" style="background-color: var(--cor-secundaria);">
+        <div class="container">
+            <h2 class="section-title">Código e Segurança Pós-Quântica</h2>
+            <p style="color: var(--cor-texto-medio);">A base do nosso sistema é o software de código aberto seguro, auditável e rodando em contêineres Docker, com o módulo PQC de Criptografia Híbrida.</p>
+
+            <h3>Exemplo Conceitual: Configuração do PQC-VPN-Gateway (Docker Compose YAML)</h3>
+            <div class="code-block">
+                <span class="code-key">version:</span> <span class="code-num">'3.7'</span>
+<span class="code-key">services:</span>
+  <span class="code-com"># Container de Segurança PQC (Libreswan c/ OQS)</span>
+  <span class="code-var">pqc-vpn-gateway:</span>
+    <span class="code-key">image:</span> <span class="code-str">openquantumsafe/libreswan-pqc:latest</span>
+    <span class="code-key">container_name:</span> <span class="code-str">pqc_crypto_gateway</span>
+    <span class="code-key">network_mode:</span> <span class="code-str">host</span>
+    <span class="code-key">volumes:</span>
+      - <span class="code-str">./pqc_config:/etc/ipsec.d/pqc_config</span>
+    <span class="code-key">command:</span> [<span class="code-str">"ipsec"</span>, <span class="code-str">"pluto"</span>]
+    <span class="code-com"># Algoritmos PQC Híbridos Ativados (Ambiente de Configuração):</span>
+    <span class="code-key">environment:</span>
+      - <span class="code-var">IKE_ALGO=</span><span class="code-str">kyber768:aes256-sha256</span>
+      - <span class="code-var">AUTH_ALGO=</span><span class="code-str">dilithium3</span>
+            </div>
+            <p style="color: var(--cor-texto-claro); margin-top: 20px;">Kyber é utilizado para o estabelecimento de chaves de sessão e Dilithium para as assinaturas digitais, garantindo que mesmo um adversário com um computador quântico não consiga decifrar as comunicações capturadas.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 5G-TacticEdge Project MateusDang. Comunicações Críticas. Soberania e Defesa.</p>
+            <p>Desenvolvido com foco em Funcionalidade, Leveza e Segurança Extrema.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

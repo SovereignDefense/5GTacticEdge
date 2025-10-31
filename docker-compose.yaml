@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  # -----------------------------------------------------------------
+  # 1. FUNÇÕES DO CORE 5G (Open5GS - O Cérebro da Rede)
+  # -----------------------------------------------------------------
+  open5gs-core:
+    image: open5gs/open5gs:latest
+    container_name: 5g_tactic_edge_core
+    # Modo host é CRÍTICO para permitir o roteamento de dados de alto desempenho
+    # e a interface direta com o gNB (Radio Tático).
+    network_mode: host 
+    privileged: true # Permite modificações de rede necessárias
+    volumes:
+      # Mapear configs e logs para persistência e customização
+      - ./config/open5gs:/opt/open5gs/etc
+      - ./logs/open5gs:/opt/open5gs/var/log
+    # Inicia as Funções de Rede Mínimas para 5G SA: AMF, SMF, UPF, AUSF, UDM, UDR, NRF.
+    # O UPF (User Plane Function) processa os dados na Borda (Edge).
+    command: ["/bin/bash", "-c", "open5gs-amf & open5gs-smf & open5gs-upf & open5gs-ausf & open5gs-udm & open5gs-udr & open5gs-nrf & wait"]
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+  
+  # -----------------------------------------------------------------
+  # 2. SERVIÇO DE BANCO DE DADOS (MongoDB - Necessário para o Core)
+  # -----------------------------------------------------------------
+  mongodb:
+    image: mongo:4.4
+    container_name: 5g_db
+    volumes:
+      - ./data/mongodb:/data/db
+    ports:
+      - "27017:27017" # Porta para acesso de gerenciamento (WebUI)
+    restart: always
+
+  # -----------------------------------------------------------------
+  # 3. PQC-VPN GATEWAY (Segurança Pós-Quântica) - MOCKUP
+  #    - Necessita de imagem customizada (Libreswan + OQS)
+  # -----------------------------------------------------------------
+  pqc-vpn-gateway:
+    image: openquantumsafe/libreswan-pqc:latest # Imagem de referência
+    container_name: pqc_crypto_gateway
+    # Roteia o tráfego do UPF para o Backhaul com criptografia PQC
+    network_mode: host
+    volumes:
+      - ./config/pqc:/etc/ipsec.d
+    # O comando real deve configurar os túneis IPsec com Kyber/Dilithium
+    command: ["echo", "PQC Gateway running in high-security mode..."]
+    restart: on-failure
