@@ -106,4 +106,4 @@ A camada de segurança mais crítica é o *VPN Gateway*. Utilizamos um protocolo
 
 Este projeto é distribuído sob a Licença MIT. Sinta-se à vontade para usar, modificar e distribuir o código, observando os termos da licença.
 
-[Visualizar Licença Completa](./LICENSE)
+[Visualizar Licença Completa](./LICENSE.txt)
