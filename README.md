@@ -69,7 +69,7 @@ Utilizaremos o Docker Compose para subir as funções mínimas do 5G Core.
     ```bash
     mkdir 5G-TacticEdge-Core
     cd 5G-TacticEdge-Core
-    git clone [https://github.com/SovereignDefense/5GTacticEdge.git](https://github.com/SovereignDefense/5GTacticEdge.git)
+    git clone https://github.com/SovereignDefense/5GTacticEdge.git
     ```
     *Continue a implantação seguindo o guia detalhado em `CORE_SETUP_GUIDE.md`.*
 
